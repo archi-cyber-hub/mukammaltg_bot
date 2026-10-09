@@ -2,7 +2,6 @@ import os
 import threading
 from flask import Flask
 import telebot
-from telebot import types
 import yt_dlp
 
 # Render port talabini qondirish uchun veb-server
@@ -25,7 +24,7 @@ bot = telebot.TeleBot(TOKEN)
 def send_welcome(message):
     welcome_text = (
         "Salom! Men universal media yuklab beruvchi botman.\n\n"
-        "Menga Instagram yoki YouTube havolasini yuboring, men sizga videoni topib beraman!"
+        "Menga Instagram yoki YouTube havolasini yuboring, men sizga videoni yuboraman!"
     )
     bot.send_message(message.chat.id, welcome_text)
 
@@ -40,22 +39,19 @@ def download_media(message):
 
     msg = bot.send_message(message.chat.id, "⏳ Video yuklab olinmoqda, biroz kuting...")
 
-    # yt-dlp sozlamalari
     ydl_opts = {
         'format': 'best',
         'outtmpl': 'video.mp4',
-        'max_filesize': 50 * 1024 * 1024, # Telegram botlar uchun 50MB limit
+        'max_filesize': 50 * 1024 * 1024,
     }
 
     try:
-        # Eski yuklangan video bo'lsa o'chiramiz
         if os.path.exists("video.mp4"):
             os.remove("video.mp4")
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
 
-        # Yuklangan videoni Telegramga yuborish
         if os.path.exists("video.mp4"):
             with open("video.mp4", 'rb') as video_file:
                 bot.send_video(message.chat.id, video_file, caption="Mana siz so'ragan video! 🚀")
@@ -70,9 +66,6 @@ def download_media(message):
             os.remove("video.mp4")
 
 if __name__ == '__main__':
-    # Flask serverni alohida oqimda ishga tushiramiz
     flask_thread = threading.Thread(target=run_flask)
     flask_thread.start()
-    
-    # Botni ishga tushiramiz
     bot.infinity_polling()
