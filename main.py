@@ -15,8 +15,8 @@ def run_flask():
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
 
-# Botingizning Tokeni
-TOKEN = "8812714505:AAEeYlQlUvU-ePMhmoc1rU3RaJyEaVHr_FI"
+# Yangi tokeningiz
+TOKEN = "8812714505:AAHoa4KDxcfaAPw4_jnQTktIjheemr_8Wo4"
 bot = telebot.TeleBot(TOKEN)
 
 # /start komandasi
