@@ -15,7 +15,7 @@ def run_flask():
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
 
-# Yangi tokeningiz
+# Botingizning Tokeni
 TOKEN = "8812714505:AAHoa4KDxcfaAPw4_jnQTktIjheemr_8Wo4"
 bot = telebot.TeleBot(TOKEN)
 
@@ -43,6 +43,11 @@ def download_media(message):
         'format': 'best',
         'outtmpl': 'video.mp4',
         'max_filesize': 50 * 1024 * 1024,
+        'geo_bypass': True,
+        'nocheckcertificate': True,
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
     }
 
     try:
